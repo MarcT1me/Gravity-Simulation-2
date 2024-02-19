@@ -3,7 +3,7 @@
 #### powered by PhEngineV2, on Python
 ###### version 2.4.2
 
-![](core\textures\GravitySimulation.ico)\
+![ico](core/presets/textures/GravitySimulation.ico)\
 ㅤ
 ### Introduction
 This project simulates the effects of gravity on objects using formulas and calculations of the real world. It provides a visual representation of the movement of objects under the influence of gravity.
