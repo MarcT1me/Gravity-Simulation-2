@@ -1,0 +1,6 @@
+PyGame
+Numba
+PyGLM
+toml
+loguru
+kivy

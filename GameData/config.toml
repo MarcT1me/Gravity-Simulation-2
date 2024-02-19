@@ -1,0 +1,8 @@
+[Screen]
+fps = 0
+
+vsync = false
+display = 0
+
+full = false
+size = [1600, 900]
