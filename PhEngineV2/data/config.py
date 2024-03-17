@@ -15,7 +15,7 @@ APPLICATION_NAME = 'Gravity simulation'  # I do not recommend changing
 APPLICATION_VERSION: str = '2.4.2'  # I do not recommend changing
 
 """ Path settings """
-APPLICATION_PATH: str = dirname(abspath(stack()[1].filename)).removesuffix('\\PyInstaller\\loader')
+APPLICATION_PATH: str = dirname(abspath(stack()[1].filename)).removesuffix('\\PyInstaller\\loader').removesuffix(f"\\PhEngineV2\\messages")
 TEXTURE_path = rf'core/presets/textures'  # DO NOT CHANGE
 MUSIC_path = rf'core/presets/sounds/music'  # DO NOT CHANGE
 SAVES_path = rf'GameData/saves'  # DO NOT CHANGE

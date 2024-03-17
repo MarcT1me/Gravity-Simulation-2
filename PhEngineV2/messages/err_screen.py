@@ -61,22 +61,22 @@ def showTraceback(err, *, flags=pygame.NOFRAME) -> bool:
         f'We have`t check your logs, but you cen believe that we already working on it bug',
         True, (150, 220, 220)
     )
-    second_font1_pos = (10, (max_text_lines+2) * 15-5)
+    second_font1_pos = (10, (max_text_lines + 2) * 15 - 5)
     
     second_font2 = pygame.font.SysFont('Arial', 15).render(
         f'  that restart press R or on font  ', True, (220, 220, 150)
     )
-    second_font2_pos = (10, (max_text_lines+3) * 15)
+    second_font2_pos = (10, (max_text_lines + 3) * 15)
     second_font2_rect = pygame.rect.Rect(*second_font2_pos, *second_font2.get_size())
     
     """ Error text """
     def add_text(*, nl=False):
         text_lines.append(
             {
-                'text':         '',
+                'text': '',
                 'pos_variable': [col, line],
-                'color':        color,
-                'count':        nl,
+                'color': color,
+                'count': nl,
             }
         )
     
@@ -111,8 +111,8 @@ def showTraceback(err, *, flags=pygame.NOFRAME) -> bool:
         )
         
         text_surface.blit(
-            text_font, (current_pos[0]+pust_font_width if not text_line['count'] else 0,
-                        current_pos[1] * 15-text_font.get_height() // 2)
+            text_font, (current_pos[0] + pust_font_width if not text_line['count'] else 0,
+                        current_pos[1] * 15 - text_font.get_height() // 2)
         )
         pust_font_width = text_font.get_width()
     
@@ -140,7 +140,7 @@ def showTraceback(err, *, flags=pygame.NOFRAME) -> bool:
         """Update window"""
         screen.fill((0, 0, 0))
         
-        t = time.time()-start_time
+        t = time.time() - start_time
         background.set_alpha(int(t / animation_time * 100) if t <= animation_time else 100)
         screen.blit(background, (0, -20 / (.75 / background_size)))
         
@@ -151,8 +151,8 @@ def showTraceback(err, *, flags=pygame.NOFRAME) -> bool:
         pygame.draw.rect(screen, 'gray', first_font_rect, 1), pygame.draw.rect(screen, 'gray', second_font2_rect, 1)
         pygame.draw.line(
             screen, (150, 150, 150),
-            (0, (max_text_lines+1) * 15+5),
-            (screen.get_width(), (max_text_lines+1) * 15+5), 4
+            (0, (max_text_lines + 1) * 15 + 5),
+            (screen.get_width(), (max_text_lines + 1) * 15 + 5), 4
         )
         
         screen.blit(first_font, first_font_pos)
@@ -161,7 +161,9 @@ def showTraceback(err, *, flags=pygame.NOFRAME) -> bool:
         # default pygame methods
         pygame.display.flip(), clock.tick(30)
 
+
 blit_list = [1, 1, 1, 1, 1, 1]
+
 
 def showWindow(err, *, caption='Error Message', custom_surf=None, flags=pygame.NOFRAME) -> bool:
     """ processing error """
@@ -173,16 +175,16 @@ def showWindow(err, *, caption='Error Message', custom_surf=None, flags=pygame.N
     custom_surf.fill((0, 255, 0))
     if custom_surf_arg == 'base':
         custom_surf.blit(
-            pygame.font.SysFont('Verdana', 40, bold=True).render(
-                'Quantum', False, 'black'
+            pygame.font.SysFont('Verdana', 35, bold=True).render(
+                'Gravity', False, 'black'
             ),
             (7, 0)
         )
         custom_surf.blit(
-            pygame.font.SysFont('Verdana', 40, bold=True).render(
-                'Game', False, 'black'
+            pygame.font.SysFont('Verdana', 35, bold=True).render(
+                'Simulation', False, 'black'
             ),
-            (112, 51)
+            (50, 51)
         )
     if custom_surf_arg != 'fill':
         custom_surf.set_colorkey((0, 255, 0)) if custom_surf is not None else Ellipsis

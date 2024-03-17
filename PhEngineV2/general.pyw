@@ -1,57 +1,33 @@
 """ Main Engine Application.
 Allows you to set up constants, run test versions of the application and create a world for simulation.
 """
-
 from kivy.app import App  # main from kivy
 
 # other
-from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 from kivy.properties import BooleanProperty
-from kivy.core.window import Window
-from kivy.animation import Animation
-from kivy.uix.image import Image
-from kivy.uix.progressbar import ProgressBar
+from kivy.config import Config
 
 # widgets
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image
+from kivy.uix.progressbar import ProgressBar
 
 # other
-import ctypes
 import time
+import sys
 
-from PhEngineV2.core.units import UnitTestsPage
+from core.units import UnitTestsPage
+from core.sav_editor import SavReaderPage
+from core.config_editor import ConfigEditorPage
+from core.source import *
 
-
-def get_resolution():
-    user32 = ctypes.windll.user32
-    screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
-    return screensize
-
-
-def resize_window(size, pos=None):
-    w_size = get_resolution()
-    Window.size = size
-    Window.left = w_size[0]//2 - size[0]//2 if pos is None else pos[0]
-    Window.top = w_size[1]//2 - size[1]//2 if pos is None else pos[1]
-
-
-def animated_resize(size, pos=None, duration=0.15):
-    anim1 = Animation(size=size, duration=duration)
-    
-    w_size = get_resolution()
-    
-    l = w_size[0]//2 - size[0]//2 if pos is None else pos[0]
-    anim2 = Animation(left=l, duration=duration)
-    
-    t = w_size[1]//2 - size[1]//2 if pos is None else pos[1]
-    anim3 = Animation(top=t, duration=duration)
-    
-    anim1.start(Window)
-    anim2.start(Window)
-    anim3.start(Window)
+Config.set('graphics', 'fullscreen', 'auto')
+Config.set('graphics', 'window_state', 'maximized')
+Config.set('kivy', 'window_icon', rf'data/ico.ico')
 
 
 class Starting(Screen):
@@ -139,8 +115,7 @@ class Starting(Screen):
         self.manager.current = 'main'
         
         Window.borderless = False
-        # animated_resize((1920, 1010), pos=(0, 30))
-        animated_resize((1000, 550))
+        animated_resize((1200, 720))
 
 
 class MainPage(Screen):
@@ -149,6 +124,13 @@ class MainPage(Screen):
         super().__init__(**kwargs)
         self.bl = BoxLayout(orientation='vertical', padding=10, spacing=10)
         
+        self.add_widget(DrawingWidget())
+        """ main buttons """
+        self.run_btn = Button(
+            text='Run code',
+            on_press=self.config_screen,
+        )
+        self.bl.add_widget(self.run_btn)
         self.settings_btn = Button(
             text='Change config files',
             on_press=self.config_screen,
@@ -156,13 +138,22 @@ class MainPage(Screen):
         )
         self.bl.add_widget(self.settings_btn)
         self.run_btn = Button(
-            text='Run code',
-            on_press=self.config_screen,
+            text='Change sav',
+            on_press=self.sav_screen,
         )
         self.bl.add_widget(self.run_btn)
         self.run_btn = Button(
             text='Units tests',
             on_press=self.units_screen,
+        )
+        self.bl.add_widget(self.run_btn)
+        
+        # EXIT BTN
+        self.run_btn = Button(
+            text='EXIT',
+            font_size=50,
+            on_release=lambda _: sys.exit(),
+            background_color=(0.9, 0.3, 0.1)
         )
         self.bl.add_widget(self.run_btn)
         
@@ -175,19 +166,26 @@ class MainPage(Screen):
         self.manager.current = 'units'
     
     def config_screen(self, instance):
-        self.manager.current = 'config'
+        self.manager.current = 'cfg'
+    
+    def sav_screen(self, instance):
+        self.manager.current = 'sav'
 
 
 class PhEngineApp(App):
     loading_complete = BooleanProperty(False)  # Переменная, которая должна измениться на True после загрузки
     
     def build(self):
+        self.icon = rf'data\ico.ico'
         sm = ScreenManager()
         
         """ All Engine Screens and Tabs """
         sm.add_widget(Starting(name='start'))
         sm.add_widget(MainPage(name='main'))
+        
         sm.add_widget(UnitTestsPage(name='units'))
+        sm.add_widget(SavReaderPage(name='sav'))
+        sm.add_widget(ConfigEditorPage(name='cfg'))
         
         return sm
 
