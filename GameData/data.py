@@ -1,7 +1,7 @@
 game_status = ['menu', None]
 
 # sound
-sound_volume = 1
+sound_volume = 0.1
 
 # relationship
 relationship = 600_000_000

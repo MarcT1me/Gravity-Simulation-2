@@ -1,6 +1,6 @@
-PyGame
-Numba
-PyGLM
+pygame
+numba
+pyglm
 toml
 loguru
 kivy
